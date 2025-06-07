@@ -12,7 +12,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
 public class Utils {
-	RequestSpecification req;
+	public static RequestSpecification req; // Static variable to hold the RequestSpecification object, We can use static variable to avoid re-initialization of request specification object
 	
 	public String getGlobalValue(String key) throws Exception { // This method retrieves values from a properties file
 		Properties prop = new Properties();
@@ -24,12 +24,15 @@ public class Utils {
 	
 	public RequestSpecification requestSpecification() throws Exception {
 		
-		PrintStream log = new PrintStream(new FileOutputStream("logging.txt")); // Initialize PrintStream to log requests & creating new file in run time& we have to add throws declaration
-		req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseUrl")) // Get base URL from global.properties file
-				.addQueryParam("key", "qaclick123")
-				.addFilter(RequestLoggingFilter.logRequestTo(log)) // Log requests to console or file loggingfilter
-				.addFilter(ResponseLoggingFilter.logResponseTo(log)) // Log responses to console or file loggingfilter
-				.setContentType(ContentType.JSON).build();
+		if(req==null) { // Check if req is null to avoid re-initialization, Making sure we only create the RequestSpecification once by using a static variable
+			PrintStream log = new PrintStream(new FileOutputStream("logging.txt")); // Initialize PrintStream to log requests & creating new file in run time& we have to add throws declaration
+			req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseUrl")) // Get base URL from global.properties file
+					.addQueryParam("key", "qaclick123")
+					.addFilter(RequestLoggingFilter.logRequestTo(log)) // Log requests to console or file loggingfilter
+					.addFilter(ResponseLoggingFilter.logResponseTo(log)) // Log responses to console or file loggingfilter
+					.setContentType(ContentType.JSON).build();
+			return req;
+		}
 		return req;
 	}
 
