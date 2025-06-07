@@ -13,3 +13,10 @@ Examples:
   | Name           				| Language   | Address            |
   | Dinesh Dreamers House | Tamil-IN 	 | World Cross Center |
   #| Dreamers House 				| English-IN | Sea Cross Center		|
+
+    
+Scenario: verify if we are able to delete place using DeletePlaceAPI
+	Given Delete Place payload
+	When user calls "DeletePlaceAPI" with "post" http request
+	Then the API call is success with status coded 200
+	And "status" in response body is "OK"

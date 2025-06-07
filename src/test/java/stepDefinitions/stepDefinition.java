@@ -24,6 +24,7 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 	RequestSpecification given_response;
 	Response response;
 	AddPlace ap;
+	static String place_id;
 	TestDataBuild data = new TestDataBuild(); //Calling the data class to get the payload
 	
 
@@ -31,7 +32,11 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 	public void add_place_payload(String Name, String lang, String Address) throws Exception {
 //		res = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
 		given_response = given().spec(requestSpecification()).body(data.addPlacePayload(Name, lang, Address));
-
+	}
+	
+	@Given("Delete Place payload")
+	public void delete_place_payload() throws Exception {
+		given_response = given().spec(requestSpecification()).body(data.deletePlacePayload(place_id));
 	}
 
 	@When("user calls {string} with {string} http request")
@@ -70,13 +75,13 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 	@Then("verify place_id created that maps to {string} using {string}")
 	public void verify_place_id_created_that_maps_to_using(String Name, String APIMethod) throws Exception {
 	    //Prepare req spec
-		String place_id = getJsonPath(response, "place_id");
+		place_id = getJsonPath(response, "place_id");
 		given_response = given().spec(requestSpecification()).queryParam("place_id", place_id);
 		user_calls_with_post_http_request(APIMethod, "GET");
 //		the_api_call_is_success_with_status_coded(200);
 //		in_response_body_is("name",Name);
-		String actualName = getJsonPath(response, "name");
-		assertEquals(actualName, Name);
+		String actualName = getJsonPath(response, "name"); // we can use above 2 steps as well
+		assertEquals(actualName, Name); 
 	}
 
 
