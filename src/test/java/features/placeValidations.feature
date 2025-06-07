@@ -1,6 +1,6 @@
 Feature: Validating place API's
 
-@AddPlace
+@AddPlace @Regression
 Scenario Outline: Verify if place is being successfully added using AddPlaceAPI and verify the place is created successfully using GetPlaceAPI
 #Driving data dynamically
 	Given Add Place payload with "<Name>" "<Language>" "<Address>" 
@@ -15,7 +15,7 @@ Examples:
   | Dinesh Dreamers House | Tamil-IN 	 | World Cross Center |
   #| Dreamers House 				| English-IN | Sea Cross Center		|
 
-@DeletePlace
+@DeletePlace @Regression
 Scenario: verify if we are able to delete place using DeletePlaceAPI
 	Given Delete Place payload
 	When user calls "DeletePlaceAPI" with "post" http request
