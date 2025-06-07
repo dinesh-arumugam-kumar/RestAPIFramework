@@ -16,6 +16,7 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import pojo.AddPlace;
+import resources.APIResources;
 import resources.TestDataBuild;
 import resources.Utils;
 
@@ -34,12 +35,23 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 
 	}
 
-	@When("user calls {string} with post http request")
-	public void user_calls_with_post_http_request(String string) {
+	@When("user calls {string} with {string} http request")
+	public void user_calls_with_post_http_request(String Resources ,String APIMethod) {
+		APIResources resourceAPI =  APIResources.valueOf(Resources); // Constructor will call when use valueOf method, it will return the enum constant of the specified string value
+		System.out.println(resourceAPI.getResource()); // This will return the resource path from the enum APIResources
+		
 		res = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		if (string.equalsIgnoreCase("AddPlaceAPI")) {
-			response = given_response.when().post("maps/api/place/add/json").then().spec(res).extract().response();
-		}
+		
+		if(APIMethod.equalsIgnoreCase("POST")) 
+			response = given_response.when().post(resourceAPI.getResource());
+		else if(APIMethod.equalsIgnoreCase("GET"))
+			response = given_response.when().get(resourceAPI.getResource());
+		else if(APIMethod.equalsIgnoreCase("DELETE"))
+			response = given_response.when().delete(resourceAPI.getResource());
+		else if(APIMethod.equalsIgnoreCase("PUT"))
+			response = given_response.when().put(resourceAPI.getResource());
+		else
+			System.out.println("Invalid API Method");
 	}
 
 	@Then("the API call is success with status coded {int}")
