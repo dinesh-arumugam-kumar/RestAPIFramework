@@ -21,7 +21,6 @@
     <groupId>io.cucumber</groupId>
     <artifactId>cucumber-junit</artifactId>
     <version>7.22.2</version>
-    <scope>test</scope>
 </dependency>
 <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
 <dependency>
