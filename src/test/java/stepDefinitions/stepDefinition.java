@@ -27,10 +27,10 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 	TestDataBuild data = new TestDataBuild(); //Calling the data class to get the payload
 	
 
-	@Given("Add Place payload")
-	public void add_place_payload() throws Exception {
+	@Given("Add Place payload with {string} {string} {string}")
+	public void add_place_payload(String Name, String lang, String Address) throws Exception {
 //		res = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
-		given_response = given().spec(requestSpecification()).body(data.addPlacePayload());
+		given_response = given().spec(requestSpecification()).body(data.addPlacePayload(Name, lang, Address));
 
 	}
 
