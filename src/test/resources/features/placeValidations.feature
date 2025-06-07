@@ -15,7 +15,7 @@ Examples:
   | Dinesh Dreamers House | Tamil-IN 	 | World Cross Center |
   #| Dreamers House 				| English-IN | Sea Cross Center		|
 
-@DeletePlace
+@DeletePlace 
 Scenario: verify if we are able to delete place using DeletePlaceAPI
 	Given Delete Place payload
 	When user calls "DeletePlaceAPI" with "post" http request
