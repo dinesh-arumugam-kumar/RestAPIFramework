@@ -40,7 +40,7 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 	}
 
 	@When("user calls {string} with {string} http request")
-	public void user_calls_with_post_http_request(String Resources ,String APIMethod) {
+	public void user_calls_with_http_request(String Resources ,String APIMethod) {
 		APIResources resourceAPI =  APIResources.valueOf(Resources); // Constructor will call when use valueOf method, it will return the enum constant of the specified string value
 		System.out.println(resourceAPI.getResource()); // This will return the resource path from the enum APIResources
 		
@@ -73,11 +73,11 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 	}
 	
 	@Then("verify place_id created that maps to {string} using {string}")
-	public void verify_place_id_created_that_maps_to_using(String Name, String APIMethod) throws Exception {
+	public void verify_place_id_created_that_maps_to_using(String Name, String Resource) throws Exception {
 	    //Prepare req spec
 		place_id = getJsonPath(response, "place_id");
 		given_response = given().spec(requestSpecification()).queryParam("place_id", place_id);
-		user_calls_with_post_http_request(APIMethod, "GET");
+		user_calls_with_http_request(Resource, "GET");
 //		the_api_call_is_success_with_status_coded(200);
 //		in_response_body_is("name",Name);
 		String actualName = getJsonPath(response, "name"); // we can use above 2 steps as well
