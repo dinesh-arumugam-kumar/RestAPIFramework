@@ -11,7 +11,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
@@ -64,10 +63,23 @@ public class stepDefinition extends Utils { // extending Utils to use the reques
 
 	@Then("{string} in response body is {string}")
 	public void in_response_body_is(String key, String value) {
-		String res = response.asString();
-		JsonPath js = new JsonPath(res);
-		String keys = js.get(key).toString();
+		String keys = getJsonPath(response, key);
 		Assert.assertEquals(keys, value);
 	}
+	
+	@Then("verify place_id created that maps to {string} using {string}")
+	public void verify_place_id_created_that_maps_to_using(String Name, String APIMethod) throws Exception {
+	    //Prepare req spec
+		String place_id = getJsonPath(response, "place_id");
+		given_response = given().spec(requestSpecification()).queryParam("place_id", place_id);
+		user_calls_with_post_http_request(APIMethod, "GET");
+//		the_api_call_is_success_with_status_coded(200);
+//		in_response_body_is("name",Name);
+		String actualName = getJsonPath(response, "name");
+		assertEquals(actualName, Name);
+	}
+
+
+
 
 }
